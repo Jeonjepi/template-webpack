@@ -1,27 +1,34 @@
-import { Boot } from './scenes/Boot';
-import { Game } from './scenes/Game';
-import { GameOver } from './scenes/GameOver';
-import { MainMenu } from './scenes/MainMenu';
+import Phaser from 'phaser';
 import { Preloader } from './scenes/Preloader';
+import { Loading } from './scenes/Loading';
+import { Round } from './scenes/Round';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
 const config = {
     type: Phaser.AUTO,
-    width: 1024,
-    height: 768,
+    width: width,
+    height: height,
     parent: 'game-container',
     backgroundColor: '#028af8',
+    physics:{ //물리 엔진
+        default:'arcade', //arcade 엔진
+        debug:true //디버깅 사용
+    },
     scale: {
         mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width:width,
+        height:height
     },
     scene: [
-        Boot,
         Preloader,
-        MainMenu,
-        Game,
-        GameOver
+        Loading,
+        Round
     ]
 };
 

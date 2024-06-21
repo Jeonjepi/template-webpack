@@ -1,46 +1,75 @@
 import { Scene } from 'phaser';
-
-export class Preloader extends Scene
-{
-    constructor ()
-    {
+class Preloader extends Scene {
+    constructor() {
         super('Preloader');
     }
 
-    init ()
-    {
-        //  We loaded this image in our Boot Scene, so we can display it here
-        this.add.image(512, 384, 'background');
+    preload() {
+        this.#background();
+        this.#effects();
+        this.#missiles();
+        this.#shooter();
+    }
 
-        //  A simple progress bar. This is the outline of the bar.
-        this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff);
+    #background() {
+        this.load.path = 'assets/background/';
+        this.load.image('background', 'background.png')
+        this.load.spritesheet('fish', 'fish.png', { frameWidth: 33, frameHeight: 70 })
+        this.load.spritesheet('MonsterDefault', 'move-fs8.png', { frameWidth: 90, frameHeight: 118 });
+        this.load.spritesheet('slime', 'slime.png', { frameWidth: 33, frameHeight: 21 })
+    
+    }
 
-        //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
-        const bar = this.add.rectangle(512-230, 384, 4, 28, 0xffffff);
+    #effects() {
+        this.load.path = 'assets/effects/';
+        this.load.image('effect1', 'spaceEffects_014.png')
+        this.load.image('effect2', 'spaceEffects_015.png')
+        this.load.image('effect3', 'spaceEffects_016.png')
 
-        //  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
-        this.load.on('progress', (progress) => {
+    }
 
-            //  Update the progress bar (our bar is 464px wide, so 100% = 464px)
-            bar.width = 4 + (460 * progress);
+    #missiles() {
+        this.load.path = 'assets/missiles/';
+        this.load.image('laser', 'laserRed01.png')
+        this.load.image('missiles', 'spaceMissiles_018.png')
+    }
 
+    #shooter() {
+        this.load.path = 'assets/shooter/';
+        this.load.image('PlayerDefault', 'playerShip2_red.png')
+        this.load.image('player2', 'playerShip3_green.png')
+        this.load.image('player3', 'playerShip3_orange.png')
+    }
+
+    #createAnimation() {
+        this.anims.create({
+            key: 'fishMove',
+            frames: this.anims.generateFrameNumbers('fish', { start: 0, end: 12 }),
+            frameRate: 4,
+            repeat: -1
         });
+        this.anims.create({
+            key: 'guest08Move',
+            frames: this.anims.generateFrameNumbers('guest_08_move', {
+                start: 0,
+                end: 20,
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+        this.anims.create({
+            key: 'slimeMove',
+            frames: this.anims.generateFrameNumbers('slime', { start: 0, end: 12 }),
+            frameRate: 4,
+            repeat: -1
+        });
+        
     }
 
-    preload ()
-    {
-        //  Load the assets for the game - Replace with your own assets
-        this.load.setPath('assets');
-
-        this.load.image('logo', 'logo.png');
-    }
-
-    create ()
-    {
-        //  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.
-        //  For example, you can define global animations here, so we can use them in other scenes.
-
-        //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
-        this.scene.start('MainMenu');
+    create() {
+        this.#createAnimation();
+        this.scene.start('Loading');
     }
 }
+
+export { Preloader };
