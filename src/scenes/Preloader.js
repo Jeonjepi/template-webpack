@@ -14,9 +14,9 @@ class Preloader extends Scene {
     #background() {
         this.load.path = 'assets/background/';
         this.load.image('background', 'background.png')
-        this.load.spritesheet('fish', 'fish.png', { frameWidth: 33, frameHeight: 70 })
+        this.load.spritesheet('fish', 'fish.png', { frameWidth: 135, frameHeight: 65 })
         this.load.spritesheet('MonsterDefault', 'move-fs8.png', { frameWidth: 90, frameHeight: 118 });
-        this.load.spritesheet('slime', 'slime.png', { frameWidth: 33, frameHeight: 21 })
+        this.load.spritesheet('slime', 'slime.png', { frameWidth: 39, frameHeight: 30 })
     
     }
 
@@ -44,7 +44,7 @@ class Preloader extends Scene {
     #createAnimation() {
         this.anims.create({
             key: 'fishMove',
-            frames: this.anims.generateFrameNumbers('fish', { start: 0, end: 12 }),
+            frames: this.anims.generateFrameNumbers('fish', { start: 0, end: 9 }),
             frameRate: 4,
             repeat: -1
         });
@@ -59,7 +59,7 @@ class Preloader extends Scene {
         });
         this.anims.create({
             key: 'slimeMove',
-            frames: this.anims.generateFrameNumbers('slime', { start: 0, end: 12 }),
+            frames: this.anims.generateFrameNumbers('slime', { start: 0, end: 6 }),
             frameRate: 4,
             repeat: -1
         });

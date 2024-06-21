@@ -17,9 +17,10 @@ class Round extends Phaser.Scene{
             y:y+height/2
         }
 
-        this.enemy = new Enemy(this, center.x, height*1/5);
+        
+        this.player = new Player(this, center.x, height * 4/5);
+        this.enemy = new Enemy(this, center.x, height*1/5, this.player);
 
-        this.player = new Player(this, center.x, height * 4/5)
         // console.log("Adding enemy sprite...");
         // this.enemy = this.add.sprite(center.x, height * 1 / 5)
         //     .play('fishMove')

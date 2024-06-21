@@ -1,3 +1,5 @@
+import { Missile } from "./Missile";
+
 class Player extends Phaser.Physics.Arcade.Image{
     //게임 이미지에 장면을 저장하는 거구나!!!! 오옹
     constructor(scene, x, y){
@@ -11,7 +13,7 @@ class Player extends Phaser.Physics.Arcade.Image{
         this.setPosition(x,y);
         this.setDepth(6);
 
-        this.speed = 5;
+        this.speed = 10;
 
         //이동키 설정
         this.key = {
@@ -20,6 +22,9 @@ class Player extends Phaser.Physics.Arcade.Image{
             left : scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
             right : scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
         }
+
+        //미사일 설정
+        this.missile = new Missile(scene)
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -36,15 +41,17 @@ class Player extends Phaser.Physics.Arcade.Image{
             const distance = Phaser.Math.Distance.Between(
                 pointer.x, pointer.y, this.x, this.y
             )
-            //각도 계산
-            const angle = Phaser.Math.Angle.Between(
-                pointer.x, pointer.y, this.x, this.y
-            )
-            const dx = Math.cos(angle) * this.speed;
-            const dy = Math.sin(angle) * this.speed;
-
-            this.x -= dx;
-            this.y -= dy;
+            if(distance > this.speed){
+                //각도 계산
+                const angle = Phaser.Math.Angle.Between(
+                    pointer.x, pointer.y, this.x, this.y
+                )
+                const dx = Math.cos(angle) * this.speed;
+                const dy = Math.sin(angle) * this.speed;
+    
+                this.x -= dx;
+                this.y -= dy;
+            }
         }
         //추가해둔 키보드 방향키가 눌리면 isDown 속성이 true가 되기 때문에
         //해당 키에 맞게 x,y 좌표를 변경해야 함(speed 반영)
